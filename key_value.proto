@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package hello;
+package key_value;
 
 service DoStuff {
     rpc say_hello (HelloRequest) returns (HelloReply) {}
