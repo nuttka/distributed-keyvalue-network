@@ -2,14 +2,25 @@ syntax = "proto3";
 
 package key_value;
 
-service DoStuff {
-    rpc say_hello (HelloRequest) returns (HelloReply) {}
-    rpc say_hello_again (HelloRequest) returns (HelloReply) {}
+service Storage {
+    rpc insert (PairKeyValue) returns (InsertReply) {}
+    rpc get (Key) returns (Value) {}
+
+
+    // rpc activate (ServiceID) returns (Zero) {}
+    // rpc finish () returns (Finish) {}
 }
 
-message HelloRequest {
-    int32 pid = 1;
+message PairKeyValue {
+    int64 key = 1;
+    string value = 2;
 }
-message HelloReply {
-    string retval = 1;
+message InsertReply {
+    string reply = 1;
+}
+message Key {
+    int64 key = 1;
+}
+message Value {
+    string value = 1;
 }
