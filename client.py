@@ -1,45 +1,54 @@
-from __future__ import print_function
-import os
+# from __future__ import print_function
 
 import grpc
 
 import key_value_pb2, key_value_pb2_grpc
 
+def input_treatment():
+    keyValueClient = KeyValueClient()
 
-def run():
-    channel = grpc.insecure_channel('localhost:8888')
-    stub = key_value_pb2_grpc.StorageStub(channel)
+    while True:
+        input_value = input().split(',')
+        if input_value[0] == 'I':
+            keyValueClient.insert(int(input_value[1]), input_value[2])
+        elif input_value[0] == 'C':
+            keyValueClient.get(int(input_value[1]))
+        elif input_value[0] == 'A':
+            pass
+        elif input_value[0] == 'T':
+            keyValueClient.finish()
+        else:
+            break
+        
+    keyValueClient.channel.close()
 
-    key = 1
-    value = "valor 1"
-    message = key_value_pb2.PairKeyValue(key = key, value = value)
-    response = stub.insert(message)
-    print("1. GRPC client received: " + response.reply)
+class KeyValueClient():
 
-    
-    key, value = (1, "valor 1")
-    message = key_value_pb2.PairKeyValue(key = key, value = value)
-    response = stub.insert(message)
-    print("2. GRPC client received: " + response.reply)
+    def __init__(self):
+        self.host = 'localhost:50051'
+        self.channel = grpc.insecure_channel(self.host)
+        self.stub = key_value_pb2_grpc.StorageStub(self.channel)
 
-    key, value = (2, "valor 2")
-    message = key_value_pb2.PairKeyValue(key = key, value = value)
-    response = stub.insert(message)
-    print("3. GRPC client received: " + response.reply)
+    def insert(self, key, value):
+        message = key_value_pb2.PairKeyValue(key = key, value = value)
+        response = self.stub.insert(message)
+        print(str(response.reply))
+        return response.reply
 
-    key = 2
-    message = key_value_pb2.Key(key = key)
-    response = stub.get(message)
-    print("4. GRPC client received: " + response.value)
+    def get(self, key):
+        message = key_value_pb2.Key(key = key)
+        response = self.stub.get(message)
+        print(str(response.value))
+        return response.value
 
-    key = 3
-    message = key_value_pb2.Key(key = key)
-    response = stub.get(message)
-    print("5. GRPC client received: " + response.value)
+      
+    def finish(self):
+        response = self.stub.finish()
+        print(str(response.reply))
+        return response.reply
 
-    channel.close()
     
 
 if __name__ == '__main__':
-    run()
+    input_treatment()
 

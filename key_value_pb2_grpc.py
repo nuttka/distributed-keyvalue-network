@@ -24,6 +24,11 @@ class StorageStub(object):
                 request_serializer=key__value__pb2.Key.SerializeToString,
                 response_deserializer=key__value__pb2.Value.FromString,
                 )
+        self.finish = channel.unary_unary(
+                '/key_value.Storage/finish',
+                request_serializer=key__value__pb2.finishParams.SerializeToString,
+                response_deserializer=key__value__pb2.Finish.FromString,
+                )
 
 
 class StorageServicer(object):
@@ -41,6 +46,13 @@ class StorageServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def finish(self, request, context):
+        """rpc activate (ServiceID) returns (Zero) {}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_StorageServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -53,6 +65,11 @@ def add_StorageServicer_to_server(servicer, server):
                     servicer.get,
                     request_deserializer=key__value__pb2.Key.FromString,
                     response_serializer=key__value__pb2.Value.SerializeToString,
+            ),
+            'finish': grpc.unary_unary_rpc_method_handler(
+                    servicer.finish,
+                    request_deserializer=key__value__pb2.finishParams.FromString,
+                    response_serializer=key__value__pb2.Finish.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -95,5 +112,22 @@ class Storage(object):
         return grpc.experimental.unary_unary(request, target, '/key_value.Storage/get',
             key__value__pb2.Key.SerializeToString,
             key__value__pb2.Value.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def finish(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/key_value.Storage/finish',
+            key__value__pb2.finishParams.SerializeToString,
+            key__value__pb2.Finish.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
