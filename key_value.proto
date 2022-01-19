@@ -8,7 +8,7 @@ service Storage {
 
 
     // rpc activate (ServiceID) returns (Zero) {}
-    // rpc finish () returns (Finish) {}
+    rpc finish () returns (Finish) {}
 }
 
 message PairKeyValue {
@@ -23,4 +23,7 @@ message Key {
 }
 message Value {
     string value = 1;
+}
+message Finish {
+    string reply = 1;
 }

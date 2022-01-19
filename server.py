@@ -19,7 +19,9 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
         if reply == 0:
             self.key_value_list.append((key, value))
 
-        return key_value_pb2.InsertReply(reply=reply)
+        result = {'reply': reply}
+
+        return key_value_pb2.InsertReply(**result)
 
     
     def get(self, request, context):
@@ -29,7 +31,15 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
 
         value = "" if find == None else self.key_value_list[find]
 
-        return key_value_pb2.Value(value=value)
+        result = {'value': value}
+
+        return key_value_pb2.Value(**result)
+
+    
+    def finish(self, request, context):
+        result = {'reply': 0}
+        
+        return key_value_pb2.Finish(**result)
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
