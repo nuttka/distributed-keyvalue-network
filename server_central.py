@@ -21,13 +21,9 @@ class CentralManagementService(central_management_pb2_grpc.CentralManagementServ
     
     def find(self, request, context):
         key = request.key
-
         find = next((i for i, kv in enumerate(self.central_list) if key in kv[1]), None)
-
         value = "" if find == None else self.central_list[find][0]
-
         return central_management_pb2.Server(server = value)
-
 
     
     def finish(self, request, context):
