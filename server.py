@@ -45,7 +45,7 @@ def serve():
     server.start()
     # server.wait_for_termination()
     stop_event.wait()
-    server.stop()
+    server.stop(50)
 
 if __name__ == '__main__':
     serve()

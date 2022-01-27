@@ -25,6 +25,6 @@ message Value {
     string value = 1;
 }
 message Finish {
-    string reply = 1;
+    int32 reply = 1;
 }
 message finishParams {}

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fkey_value.proto\x12\tkey_value\"*\n\x0cPairKeyValue\x12\x0b\n\x03key\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\t\"\x1c\n\x0bInsertReply\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x12\n\x03Key\x12\x0b\n\x03key\x18\x01 \x01(\x05\"\x16\n\x05Value\x12\r\n\x05value\x18\x01 \x01(\t\"\x17\n\x06\x46inish\x12\r\n\x05reply\x18\x01 \x01(\t\"\x0e\n\x0c\x66inishParams2\xa9\x01\n\x07Storage\x12;\n\x06insert\x12\x17.key_value.PairKeyValue\x1a\x16.key_value.InsertReply\"\x00\x12)\n\x03get\x12\x0e.key_value.Key\x1a\x10.key_value.Value\"\x00\x12\x36\n\x06\x66inish\x12\x17.key_value.finishParams\x1a\x11.key_value.Finish\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0fkey_value.proto\x12\tkey_value\"*\n\x0cPairKeyValue\x12\x0b\n\x03key\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\t\"\x1c\n\x0bInsertReply\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x12\n\x03Key\x12\x0b\n\x03key\x18\x01 \x01(\x05\"\x16\n\x05Value\x12\r\n\x05value\x18\x01 \x01(\t\"\x17\n\x06\x46inish\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x0e\n\x0c\x66inishParams2\xa9\x01\n\x07Storage\x12;\n\x06insert\x12\x17.key_value.PairKeyValue\x1a\x16.key_value.InsertReply\"\x00\x12)\n\x03get\x12\x0e.key_value.Key\x1a\x10.key_value.Value\"\x00\x12\x36\n\x06\x66inish\x12\x17.key_value.finishParams\x1a\x11.key_value.Finish\"\x00\x62\x06proto3'
 )
 
 
@@ -170,8 +170,8 @@ _FINISH = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='reply', full_name='key_value.Finish.reply', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
