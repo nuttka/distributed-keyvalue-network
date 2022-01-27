@@ -43,7 +43,7 @@ def serve():
     key_value_pb2_grpc.add_StorageServicer_to_server(KeyValueService(stop_event = stop_event), server)
     server.add_insecure_port('localhost:50051')
     server.start()
-    # server.wait_for_termination()
+    
     stop_event.wait()
     server.stop(50)
 

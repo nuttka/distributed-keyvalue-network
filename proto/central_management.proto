@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package central_management;
+
+service CentralManagement {
+    rpc register (ServerKeys) returns (RegisterReply) {}
+    rpc find (Key) returns (Server) {}
+    rpc finish (FinishParams) returns (FinishReply) {}
+}
+
+message ServerKeys {
+    string server_id = 1;
+    repeated int32 arr = 2;
+}
+message RegisterReply {
+    int32 number_of_keys = 1;
+}
+message Key {
+    int32 key = 1;
+}
+message Server {
+    string server = 1;
+}
+message FinishParams {}
+message FinishReply {
+    int32 number_of_keys = 1;
+}
