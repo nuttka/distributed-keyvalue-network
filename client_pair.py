@@ -24,6 +24,12 @@ class KeyValueClient():
         print(str(response.value))
         return response.value
 
+    def activate(self, id):
+        message = key_value_pb2.ServiceID(id = id)
+        response = self.stub.activate(message)
+        print(str(response.value))
+        return response.value
+
       
     def finish(self):
         message = key_value_pb2.finishParams()
@@ -45,7 +51,7 @@ def run():
             keyValueClient.get(int(input_value[1]))
             
         elif input_value[0] == 'A':
-            pass
+            keyValueClient.activate(input_value[1])
         
         elif input_value[0] == 'T':
             keyValueClient.finish()

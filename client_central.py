@@ -5,7 +5,7 @@ import grpc
 import central_management_pb2, central_management_pb2_grpc
 
 
-class KeyValueClient():
+class CentralClient():
 
     def __init__(self):
         self.host = 'localhost:8080'
@@ -28,22 +28,22 @@ class KeyValueClient():
 
 
 def run():
-    keyValueClient = KeyValueClient()
+    centralClient = CentralClient()
 
     while True:
         input_value = input().split(',')
         if input_value[0] == 'C':
-            keyValueClient.findServer(input_value[1])
+            centralClient.findServer(input_value[1])
         
         elif input_value[0] == 'T':
-            keyValueClient.finish()
+            centralClient.finish()
             break
         
         else:
             print("Entrada inválida ...")
             break
         
-    keyValueClient.channel.close()
+    centralClient.channel.close()
 
 
 
