@@ -8,7 +8,7 @@ service Storage {
 
     rpc activate (ServiceID) returns (NumberKeys) {}
 
-    rpc finish (finishParams) returns (Finish) {}
+    rpc finish (FinishParams) returns (Finish) {}
 }
 
 message PairKeyValue {
@@ -27,7 +27,7 @@ message Value {
 message Finish {
     int32 reply = 1;
 }
-message finishParams {}
+message FinishParams {}
 message ServiceID {
     string id = 1;
 }

@@ -27,13 +27,18 @@ class CentralManagementService(central_management_pb2_grpc.CentralManagementServ
 
     
     def finish(self, request, context):
+        number_of_keys = 0
+
+        for item in self.central_list:
+            number_of_keys += len(item[1])
+
         self.stop_event.set()
-        return central_management_pb2.FinishReply(reply = 0)
+        return central_management_pb2.FinishReply(number_of_keys = number_of_keys)
 
 def serve():
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
-    central_management_pb2_grpc.add_StorageServicer_to_server(CentralManagementService(stop_event = stop_event), server)
+    central_management_pb2_grpc.add_CentralManagementServicer_to_server(CentralManagementService(stop_event = stop_event), server)
     server.add_insecure_port('localhost:8080')
     server.start()
     

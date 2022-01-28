@@ -15,7 +15,7 @@ class CentralClient():
         self.channel = grpc.insecure_channel(self.host)
         self.stub = central_management_pb2_grpc.CentralManagementStub(self.channel)
 
-    def findServer(self, server, arr):
+    def sendKeys(self, server, arr):
         message = central_management_pb2.ServerKeys(server_id = server, arr = arr)
         response = self.stub.register(message)
         print(str(response.number_of_keys))
@@ -59,8 +59,8 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
         for key_value in self.key_value_list:
             keys_arr.append(key_value[0])
 
-        central_client.findServer(self.host, keys_arr)
-        return key_value_pb2.NumberKeys(number_of_keys = 0)
+        number_of_keys = central_client.sendKeys("localhost:50051", keys_arr)
+        return key_value_pb2.NumberKeys(number_of_keys = number_of_keys)
 
     
     def finish(self, request, context):

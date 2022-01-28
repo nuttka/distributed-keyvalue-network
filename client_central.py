@@ -20,10 +20,10 @@ class CentralClient():
 
       
     def finish(self):
-        message = central_management_pb2.finishParams()
+        message = central_management_pb2.FinishParams()
         response = self.stub.finish(message)
-        print(str(response.reply))
-        return response.reply
+        print(str(response.number_of_keys))
+        return response.number_of_keys
 
 
 

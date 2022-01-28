@@ -24,9 +24,14 @@ class StorageStub(object):
                 request_serializer=key__value__pb2.Key.SerializeToString,
                 response_deserializer=key__value__pb2.Value.FromString,
                 )
+        self.activate = channel.unary_unary(
+                '/key_value.Storage/activate',
+                request_serializer=key__value__pb2.ServiceID.SerializeToString,
+                response_deserializer=key__value__pb2.NumberKeys.FromString,
+                )
         self.finish = channel.unary_unary(
                 '/key_value.Storage/finish',
-                request_serializer=key__value__pb2.finishParams.SerializeToString,
+                request_serializer=key__value__pb2.FinishParams.SerializeToString,
                 response_deserializer=key__value__pb2.Finish.FromString,
                 )
 
@@ -46,9 +51,14 @@ class StorageServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def activate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def finish(self, request, context):
-        """rpc activate (ServiceID) returns (Zero) {}
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -66,9 +76,14 @@ def add_StorageServicer_to_server(servicer, server):
                     request_deserializer=key__value__pb2.Key.FromString,
                     response_serializer=key__value__pb2.Value.SerializeToString,
             ),
+            'activate': grpc.unary_unary_rpc_method_handler(
+                    servicer.activate,
+                    request_deserializer=key__value__pb2.ServiceID.FromString,
+                    response_serializer=key__value__pb2.NumberKeys.SerializeToString,
+            ),
             'finish': grpc.unary_unary_rpc_method_handler(
                     servicer.finish,
-                    request_deserializer=key__value__pb2.finishParams.FromString,
+                    request_deserializer=key__value__pb2.FinishParams.FromString,
                     response_serializer=key__value__pb2.Finish.SerializeToString,
             ),
     }
@@ -116,6 +131,23 @@ class Storage(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def activate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/key_value.Storage/activate',
+            key__value__pb2.ServiceID.SerializeToString,
+            key__value__pb2.NumberKeys.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def finish(request,
             target,
             options=(),
@@ -127,7 +159,7 @@ class Storage(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/key_value.Storage/finish',
-            key__value__pb2.finishParams.SerializeToString,
+            key__value__pb2.FinishParams.SerializeToString,
             key__value__pb2.Finish.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

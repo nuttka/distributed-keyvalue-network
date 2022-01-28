@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fkey_value.proto\x12\tkey_value\"*\n\x0cPairKeyValue\x12\x0b\n\x03key\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\t\"\x1c\n\x0bInsertReply\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x12\n\x03Key\x12\x0b\n\x03key\x18\x01 \x01(\x05\"\x16\n\x05Value\x12\r\n\x05value\x18\x01 \x01(\t\"\x17\n\x06\x46inish\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x0e\n\x0c\x66inishParams2\xa9\x01\n\x07Storage\x12;\n\x06insert\x12\x17.key_value.PairKeyValue\x1a\x16.key_value.InsertReply\"\x00\x12)\n\x03get\x12\x0e.key_value.Key\x1a\x10.key_value.Value\"\x00\x12\x36\n\x06\x66inish\x12\x17.key_value.finishParams\x1a\x11.key_value.Finish\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0fkey_value.proto\x12\tkey_value\"*\n\x0cPairKeyValue\x12\x0b\n\x03key\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\t\"\x1c\n\x0bInsertReply\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x12\n\x03Key\x12\x0b\n\x03key\x18\x01 \x01(\x05\"\x16\n\x05Value\x12\r\n\x05value\x18\x01 \x01(\t\"\x17\n\x06\x46inish\x12\r\n\x05reply\x18\x01 \x01(\x05\"\x0e\n\x0c\x46inishParams\"\x17\n\tServiceID\x12\n\n\x02id\x18\x01 \x01(\t\"$\n\nNumberKeys\x12\x16\n\x0enumber_of_keys\x18\x01 \x01(\x05\x32\xe4\x01\n\x07Storage\x12;\n\x06insert\x12\x17.key_value.PairKeyValue\x1a\x16.key_value.InsertReply\"\x00\x12)\n\x03get\x12\x0e.key_value.Key\x1a\x10.key_value.Value\"\x00\x12\x39\n\x08\x61\x63tivate\x12\x14.key_value.ServiceID\x1a\x15.key_value.NumberKeys\"\x00\x12\x36\n\x06\x66inish\x12\x17.key_value.FinishParams\x1a\x11.key_value.Finish\"\x00\x62\x06proto3'
 )
 
 
@@ -193,8 +193,8 @@ _FINISH = _descriptor.Descriptor(
 
 
 _FINISHPARAMS = _descriptor.Descriptor(
-  name='finishParams',
-  full_name='key_value.finishParams',
+  name='FinishParams',
+  full_name='key_value.FinishParams',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -216,12 +216,78 @@ _FINISHPARAMS = _descriptor.Descriptor(
   serialized_end=187,
 )
 
+
+_SERVICEID = _descriptor.Descriptor(
+  name='ServiceID',
+  full_name='key_value.ServiceID',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='key_value.ServiceID.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=189,
+  serialized_end=212,
+)
+
+
+_NUMBERKEYS = _descriptor.Descriptor(
+  name='NumberKeys',
+  full_name='key_value.NumberKeys',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='number_of_keys', full_name='key_value.NumberKeys.number_of_keys', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=214,
+  serialized_end=250,
+)
+
 DESCRIPTOR.message_types_by_name['PairKeyValue'] = _PAIRKEYVALUE
 DESCRIPTOR.message_types_by_name['InsertReply'] = _INSERTREPLY
 DESCRIPTOR.message_types_by_name['Key'] = _KEY
 DESCRIPTOR.message_types_by_name['Value'] = _VALUE
 DESCRIPTOR.message_types_by_name['Finish'] = _FINISH
-DESCRIPTOR.message_types_by_name['finishParams'] = _FINISHPARAMS
+DESCRIPTOR.message_types_by_name['FinishParams'] = _FINISHPARAMS
+DESCRIPTOR.message_types_by_name['ServiceID'] = _SERVICEID
+DESCRIPTOR.message_types_by_name['NumberKeys'] = _NUMBERKEYS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PairKeyValue = _reflection.GeneratedProtocolMessageType('PairKeyValue', (_message.Message,), {
@@ -259,12 +325,26 @@ Finish = _reflection.GeneratedProtocolMessageType('Finish', (_message.Message,),
   })
 _sym_db.RegisterMessage(Finish)
 
-finishParams = _reflection.GeneratedProtocolMessageType('finishParams', (_message.Message,), {
+FinishParams = _reflection.GeneratedProtocolMessageType('FinishParams', (_message.Message,), {
   'DESCRIPTOR' : _FINISHPARAMS,
   '__module__' : 'key_value_pb2'
-  # @@protoc_insertion_point(class_scope:key_value.finishParams)
+  # @@protoc_insertion_point(class_scope:key_value.FinishParams)
   })
-_sym_db.RegisterMessage(finishParams)
+_sym_db.RegisterMessage(FinishParams)
+
+ServiceID = _reflection.GeneratedProtocolMessageType('ServiceID', (_message.Message,), {
+  'DESCRIPTOR' : _SERVICEID,
+  '__module__' : 'key_value_pb2'
+  # @@protoc_insertion_point(class_scope:key_value.ServiceID)
+  })
+_sym_db.RegisterMessage(ServiceID)
+
+NumberKeys = _reflection.GeneratedProtocolMessageType('NumberKeys', (_message.Message,), {
+  'DESCRIPTOR' : _NUMBERKEYS,
+  '__module__' : 'key_value_pb2'
+  # @@protoc_insertion_point(class_scope:key_value.NumberKeys)
+  })
+_sym_db.RegisterMessage(NumberKeys)
 
 
 
@@ -275,8 +355,8 @@ _STORAGE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=190,
-  serialized_end=359,
+  serialized_start=253,
+  serialized_end=481,
   methods=[
   _descriptor.MethodDescriptor(
     name='insert',
@@ -299,9 +379,19 @@ _STORAGE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
+    name='activate',
+    full_name='key_value.Storage.activate',
+    index=2,
+    containing_service=None,
+    input_type=_SERVICEID,
+    output_type=_NUMBERKEYS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
     name='finish',
     full_name='key_value.Storage.finish',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_FINISHPARAMS,
     output_type=_FINISH,

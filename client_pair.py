@@ -27,12 +27,12 @@ class KeyValueClient():
     def activate(self, id):
         message = key_value_pb2.ServiceID(id = id)
         response = self.stub.activate(message)
-        print(str(response.value))
-        return response.value
+        print(str(response.number_of_keys))
+        return response.number_of_keys
 
       
     def finish(self):
-        message = key_value_pb2.finishParams()
+        message = key_value_pb2.FinishParams()
         response = self.stub.finish(message)
         print(str(response.reply))
         return response.reply
