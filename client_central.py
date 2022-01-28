@@ -15,8 +15,8 @@ class CentralClient():
     def findServer(self, key):
         message = central_management_pb2.Key(key = key)
         response = self.stub.find(message)
-        print(str(response.value))
-        return response.value
+        print(str(response.server))
+        return response.server
 
       
     def finish(self):
@@ -33,7 +33,7 @@ def run():
     while True:
         input_value = input().split(',')
         if input_value[0] == 'C':
-            centralClient.findServer(input_value[1])
+            centralClient.findServer(int(input_value[1]))
         
         elif input_value[0] == 'T':
             centralClient.finish()
