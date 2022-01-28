@@ -16,4 +16,4 @@ run_cli_central:
 	python cln_cen.py $(arg)
 
 clean:
-	rm -rf proto/*pb2*
+	rm -rf *pb2*
