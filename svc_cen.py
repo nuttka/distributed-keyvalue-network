@@ -12,34 +12,36 @@ class CentralManagementService(central_management_pb2_grpc.CentralManagementServ
     def __init__(self, stop_event, host):
         self.host = host
         self.stop_event = stop_event
-        self.central_list = []
+        self.central_list = dict()
 
 
     def register(self, request, context):
         server_id = request.server_id
         arr = request.arr
-        self.central_list.append((server_id, arr))
+
+        for item in arr:
+            self.central_list[item] = server_id
+
+
         return central_management_pb2.RegisterReply(number_of_keys = len(arr))
 
     
     def find(self, request, context):
         key = request.key
-        find = next((i for i, kv in enumerate(self.central_list) if key in kv[1]), None)
-        value = "" if find == None else self.central_list[find][0]
+
+        value = self.central_list[key] if key in self.central_list else ""
+
         return central_management_pb2.Server(server = value)
 
     
     def finish(self, request, context):
-        number_of_keys = 0
-
-        for item in self.central_list:
-            number_of_keys += len(item[1])
 
         self.stop_event.set()
-        return central_management_pb2.FinishReply(number_of_keys = number_of_keys)
+        return central_management_pb2.FinishReply(number_of_keys = len(self.central_list))
 
 def serve(port):
     host = socket.getfqdn() + ':' + port
+
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
     central_management_pb2_grpc.add_CentralManagementServicer_to_server(CentralManagementService(stop_event = stop_event, host = host), server)

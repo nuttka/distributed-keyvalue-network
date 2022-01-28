@@ -3,10 +3,6 @@ import grpc
 
 import key_value_pb2, key_value_pb2_grpc
 
-# >>> import sys
-# >>> print(sys.argv)
-# ['example.py', 'one', 'two', 'three']
-
 
 class KeyValueClient():
 
@@ -61,7 +57,7 @@ def run(host):
             break
         
         else:
-            print("Entrada inválida ...")
+            # print("Entrada inválida ...")
             break
         
     keyValueClient.channel.close()

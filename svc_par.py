@@ -19,7 +19,7 @@ class CentralClient():
     def sendKeys(self, server, arr):
         message = central_management_pb2.ServerKeys(server_id = server, arr = arr)
         response = self.stub.register(message)
-        print(str(response.number_of_keys))
+        # print(str(response.number_of_keys))
         return response.number_of_keys
         
 
@@ -54,6 +54,10 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
 
 
     def activate(self, request, context):
+        
+        if len(sys.argv) < 3:
+            return key_value_pb2.NumberKeys(number_of_keys = 0)
+        
         host = request.host
         central_client = CentralClient(host)
         keys_arr = []
@@ -73,6 +77,7 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
 
 def serve(port):
     host = socket.getfqdn() + ':' + port
+
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
     key_value_pb2_grpc.add_StorageServicer_to_server(KeyValueService(stop_event = stop_event, host = host), server)

@@ -1,8 +1,7 @@
-# from __future__ import print_function
 import sys
 import grpc
 
-import central_management_pb2, central_management_pb2_grpc
+import central_management_pb2, central_management_pb2_grpc, key_value_pb2, key_value_pb2_grpc
 
 
 class CentralClient():
@@ -15,8 +14,14 @@ class CentralClient():
     def findServer(self, key):
         message = central_management_pb2.Key(key = key)
         response = self.stub.find(message)
-        print(str(response.server))
-        return response.server
+
+        if not response.server:
+            pass
+        else:
+            key_value_client = KeyValueClient(response.server)
+            value = key_value_client.get(key)
+            print(response.server + ':' + str(value))
+            return value
 
       
     def finish(self):
@@ -24,6 +29,22 @@ class CentralClient():
         response = self.stub.finish(message)
         print(str(response.number_of_keys))
         return response.number_of_keys
+
+
+
+class KeyValueClient():
+
+    def __init__(self, host):
+        self.host = host
+        self.channel = grpc.insecure_channel(self.host)
+        self.stub = key_value_pb2_grpc.StorageStub(self.channel)
+
+    def get(self, key):
+        message = key_value_pb2.Key(key = key)
+        response = self.stub.get(message)
+        return response.value
+
+
 
 
 
@@ -40,7 +61,7 @@ def run(host):
             break
         
         else:
-            print("Entrada inválida ...")
+            # print("Entrada inválida ...")
             break
         
     centralClient.channel.close()
