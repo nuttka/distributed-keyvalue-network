@@ -1,5 +1,7 @@
 from concurrent import futures
 import threading
+import socket
+
 
 import grpc
 
@@ -10,8 +12,8 @@ import key_value_pb2, key_value_pb2_grpc, central_management_pb2, central_manage
 class CentralClient():
 
     def __init__(self, id):
-        # self.host = id
-        self.host = 'localhost:8080'
+        self.host = id
+        # self.host = 'localhost:8080'
         self.channel = grpc.insecure_channel(self.host)
         self.stub = central_management_pb2_grpc.CentralManagementStub(self.channel)
 
@@ -73,7 +75,7 @@ def serve():
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
     key_value_pb2_grpc.add_StorageServicer_to_server(KeyValueService(stop_event = stop_event), server)
-    server.add_insecure_port('localhost:50051')
+    server.add_insecure_port(socket.getfqdn() + ':50051')
     server.start()
     
     stop_event.wait()

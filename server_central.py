@@ -1,5 +1,6 @@
 from concurrent import futures
 import threading
+import socket
 
 import grpc
 
@@ -39,7 +40,7 @@ def serve():
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
     central_management_pb2_grpc.add_CentralManagementServicer_to_server(CentralManagementService(stop_event = stop_event), server)
-    server.add_insecure_port('localhost:8080')
+    server.add_insecure_port(socket.getfqdn() + ':8080')
     server.start()
     
     stop_event.wait()
