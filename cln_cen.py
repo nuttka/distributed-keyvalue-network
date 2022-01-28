@@ -1,5 +1,5 @@
 # from __future__ import print_function
-
+import sys
 import grpc
 
 import central_management_pb2, central_management_pb2_grpc
@@ -7,8 +7,8 @@ import central_management_pb2, central_management_pb2_grpc
 
 class CentralClient():
 
-    def __init__(self):
-        self.host = 'localhost:8080'
+    def __init__(self, host):
+        self.host = host
         self.channel = grpc.insecure_channel(self.host)
         self.stub = central_management_pb2_grpc.CentralManagementStub(self.channel)
 
@@ -27,8 +27,8 @@ class CentralClient():
 
 
 
-def run():
-    centralClient = CentralClient()
+def run(host):
+    centralClient = CentralClient(host)
 
     while True:
         input_value = input().split(',')
@@ -49,5 +49,6 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    host = sys.argv[1]
+    run(host)
 

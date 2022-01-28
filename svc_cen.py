@@ -1,4 +1,5 @@
 from concurrent import futures
+import sys
 import threading
 import socket
 
@@ -8,7 +9,8 @@ import central_management_pb2, central_management_pb2_grpc
 
 class CentralManagementService(central_management_pb2_grpc.CentralManagementServicer):
 
-    def __init__(self, stop_event):
+    def __init__(self, stop_event, host):
+        self.host = host
         self.stop_event = stop_event
         self.central_list = []
 
@@ -36,15 +38,17 @@ class CentralManagementService(central_management_pb2_grpc.CentralManagementServ
         self.stop_event.set()
         return central_management_pb2.FinishReply(number_of_keys = number_of_keys)
 
-def serve():
+def serve(port):
+    host = socket.getfqdn() + ':' + port
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
-    central_management_pb2_grpc.add_CentralManagementServicer_to_server(CentralManagementService(stop_event = stop_event), server)
-    server.add_insecure_port(socket.getfqdn() + ':8080')
+    central_management_pb2_grpc.add_CentralManagementServicer_to_server(CentralManagementService(stop_event = stop_event, host = host), server)
+    server.add_insecure_port(host)
     server.start()
     
     stop_event.wait()
     server.stop(50)
 
 if __name__ == '__main__':
-    serve()
+    port = sys.argv[1]
+    serve(port)

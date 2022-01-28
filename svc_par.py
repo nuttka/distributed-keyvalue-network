@@ -1,7 +1,7 @@
 from concurrent import futures
 import threading
 import socket
-
+import sys
 
 import grpc
 
@@ -11,9 +11,8 @@ import key_value_pb2, key_value_pb2_grpc, central_management_pb2, central_manage
 
 class CentralClient():
 
-    def __init__(self, id):
-        self.host = id
-        # self.host = 'localhost:8080'
+    def __init__(self, host):
+        self.host = host
         self.channel = grpc.insecure_channel(self.host)
         self.stub = central_management_pb2_grpc.CentralManagementStub(self.channel)
 
@@ -27,7 +26,8 @@ class CentralClient():
 
 class KeyValueService(key_value_pb2_grpc.StorageServicer):
 
-    def __init__(self, stop_event):
+    def __init__(self, stop_event, host):
+        self.host = host
         self.key_value_list = []
         self.stop_event = stop_event
 
@@ -54,14 +54,14 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
 
 
     def activate(self, request, context):
-        id = request.id
-        central_client = CentralClient(id)
+        host = request.host
+        central_client = CentralClient(host)
         keys_arr = []
 
         for key_value in self.key_value_list:
             keys_arr.append(key_value[0])
 
-        number_of_keys = central_client.sendKeys("localhost:50051", keys_arr)
+        number_of_keys = central_client.sendKeys(self.host, keys_arr)
         return key_value_pb2.NumberKeys(number_of_keys = number_of_keys)
 
     
@@ -71,15 +71,17 @@ class KeyValueService(key_value_pb2_grpc.StorageServicer):
 
 
 
-def serve():
+def serve(port):
+    host = socket.getfqdn() + ':' + port
     stop_event = threading.Event()
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
-    key_value_pb2_grpc.add_StorageServicer_to_server(KeyValueService(stop_event = stop_event), server)
-    server.add_insecure_port(socket.getfqdn() + ':50051')
+    key_value_pb2_grpc.add_StorageServicer_to_server(KeyValueService(stop_event = stop_event, host = host), server)
+    server.add_insecure_port(host)
     server.start()
     
     stop_event.wait()
     server.stop(50)
 
 if __name__ == '__main__':
-    serve()
+    port = sys.argv[1]
+    serve(port)

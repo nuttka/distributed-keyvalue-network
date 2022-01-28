@@ -1,14 +1,17 @@
-# from __future__ import print_function
-
+import sys
 import grpc
 
 import key_value_pb2, key_value_pb2_grpc
 
+# >>> import sys
+# >>> print(sys.argv)
+# ['example.py', 'one', 'two', 'three']
+
 
 class KeyValueClient():
 
-    def __init__(self):
-        self.host = 'localhost:50051'
+    def __init__(self, host):
+        self.host = host
         self.channel = grpc.insecure_channel(self.host)
         self.stub = key_value_pb2_grpc.StorageStub(self.channel)
 
@@ -24,8 +27,8 @@ class KeyValueClient():
         print(str(response.value))
         return response.value
 
-    def activate(self, id):
-        message = key_value_pb2.ServiceID(id = id)
+    def activate(self, host):
+        message = key_value_pb2.ServerHost(host = host)
         response = self.stub.activate(message)
         print(str(response.number_of_keys))
         return response.number_of_keys
@@ -39,8 +42,8 @@ class KeyValueClient():
 
 
 
-def run():
-    keyValueClient = KeyValueClient()
+def run(host):
+    keyValueClient = KeyValueClient(host)
 
     while True:
         input_value = input().split(',')
@@ -67,5 +70,6 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    host = sys.argv[1]
+    run(host)
 

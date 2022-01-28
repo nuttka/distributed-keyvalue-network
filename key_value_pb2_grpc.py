@@ -26,7 +26,7 @@ class StorageStub(object):
                 )
         self.activate = channel.unary_unary(
                 '/key_value.Storage/activate',
-                request_serializer=key__value__pb2.ServiceID.SerializeToString,
+                request_serializer=key__value__pb2.ServerHost.SerializeToString,
                 response_deserializer=key__value__pb2.NumberKeys.FromString,
                 )
         self.finish = channel.unary_unary(
@@ -78,7 +78,7 @@ def add_StorageServicer_to_server(servicer, server):
             ),
             'activate': grpc.unary_unary_rpc_method_handler(
                     servicer.activate,
-                    request_deserializer=key__value__pb2.ServiceID.FromString,
+                    request_deserializer=key__value__pb2.ServerHost.FromString,
                     response_serializer=key__value__pb2.NumberKeys.SerializeToString,
             ),
             'finish': grpc.unary_unary_rpc_method_handler(
@@ -142,7 +142,7 @@ class Storage(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/key_value.Storage/activate',
-            key__value__pb2.ServiceID.SerializeToString,
+            key__value__pb2.ServerHost.SerializeToString,
             key__value__pb2.NumberKeys.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

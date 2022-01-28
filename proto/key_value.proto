@@ -6,7 +6,7 @@ service Storage {
     rpc insert (PairKeyValue) returns (InsertReply) {}
     rpc get (Key) returns (Value) {}
 
-    rpc activate (ServiceID) returns (NumberKeys) {}
+    rpc activate (ServerHost) returns (NumberKeys) {}
 
     rpc finish (FinishParams) returns (Finish) {}
 }
@@ -28,8 +28,8 @@ message Finish {
     int32 reply = 1;
 }
 message FinishParams {}
-message ServiceID {
-    string id = 1;
+message ServerHost {
+    string host = 1;
 }
 message NumberKeys {
     int32 number_of_keys = 1;
