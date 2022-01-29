@@ -2,35 +2,45 @@ syntax = "proto3";
 
 package key_value;
 
-service Storage {
-    rpc insert (PairKeyValue) returns (InsertReply) {}
-    rpc get (Key) returns (Value) {}
+service Storage {  // serviço exportador
+    rpc insert (PairKeyValue) returns (InsertReply) {}   // procedimento de inserção de uma chave e seu valor
+    rpc get (Key) returns (Value) {}   // procedimento de obtenção de um valor a partir de uma chave
 
-    rpc activate (ServerHost) returns (NumberKeys) {}
+    rpc activate (ServerHost) returns (NumberKeys) {}  // procedimento de ativação no qual o servidor par envia suas chaves ao servidor central
 
-    rpc finish (FinishParams) returns (Finish) {}
+    rpc finish (FinishParams) returns (Finish) {}  // procedimento de finalização do servidor
 }
+
+
+// parametros e suas tipagens
 
 message PairKeyValue {
     int32 key = 1;
     string value = 2;
 }
+
 message InsertReply {
     int32 reply = 1;
 }
+
 message Key {
     int32 key = 1;
 }
+
 message Value {
     string value = 1;
 }
+
 message Finish {
     int32 reply = 1;
 }
+
 message FinishParams {}
+
 message ServerHost {
     string host = 1;
 }
+
 message NumberKeys {
     int32 number_of_keys = 1;
 }
